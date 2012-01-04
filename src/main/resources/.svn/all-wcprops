@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources
+END
+default.properties
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources/default.properties
+END
+oceantiles_12.dat
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources/oceantiles_12.dat
+END
+tag-mapping.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources/tag-mapping.xsd
+END
+tag-mapping.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources/tag-mapping.xml
+END
+COPYING.LESSER
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources/COPYING.LESSER
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources/COPYING
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources/NEWS
+END
+plugin.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/main/resources/plugin.xml
+END

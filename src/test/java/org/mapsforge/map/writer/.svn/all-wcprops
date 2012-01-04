@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1647/trunk/mapsforge-map-writer/src/test/java/org/mapsforge/map/writer
+END
+TestWayPolygonizer.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1618/trunk/mapsforge-map-writer/src/test/java/org/mapsforge/map/writer/TestWayPolygonizer.java
+END
+TestDeltaEncoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1647/trunk/mapsforge-map-writer/src/test/java/org/mapsforge/map/writer/TestDeltaEncoder.java
+END
