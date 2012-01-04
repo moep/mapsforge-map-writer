@@ -92,13 +92,14 @@ public class MapFileWriterTask implements Sink {
 		}
 
 		String vWriter = properties.getProperty(Constants.PROPERTY_NAME_WRITER_VERSION);
+		// TODO Uncomment this after debugging
 		try {
 			this.vSpecification = Integer.parseInt(properties
 					.getProperty(Constants.PROPERTY_NAME_FILE_SPECIFICATION_VERSION));
 		} catch (NumberFormatException e) {
 			throw new RuntimeException("map file specification version is not an integer", e); // NOPMD by bross
-																								// on 25.12.11
-																								// 13:36
+			// on 25.12.11
+			// 13:36
 		}
 
 		LOGGER.info("mapfile-writer version " + vWriter);

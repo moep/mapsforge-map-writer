@@ -189,9 +189,9 @@ public class MapFileWriter {
 	public final void writeFile(long date, int version, short tilePixel, String comment, boolean debugStrings,
 			boolean polygonClipping, boolean wayClipping, boolean pixelCompression, GeoCoordinate mapStartPosition,
 			String preferredLanguage) throws IOException {
-		((PCTilePersistenceManager) this.tilePersistenceManager).init(null);
 
 		writeMetaData(date, version, tilePixel, comment, debugStrings, mapStartPosition, preferredLanguage);
+		((PCTilePersistenceManager) this.tilePersistenceManager).init();
 
 		int amountOfZoomIntervals = this.dataStore.getZoomIntervalConfiguration().getNumberOfZoomIntervals();
 
@@ -203,8 +203,6 @@ public class MapFileWriter {
 			// SUB FILE META DATA IN CONTAINER HEADER
 			// writeZoomIntervalConfiguration(zoomInterval);
 		}
-
-		byte[] containerB = this.bufferZoomIntervalConfig.array();
 
 		LOGGER.info("Finished writing file.");
 
@@ -248,119 +246,99 @@ public class MapFileWriter {
 				+ this.dataStore.getBoundingBox().minLongitudeE6 + ", " + this.dataStore.getBoundingBox().minLatitudeE6
 				+ ", " + this.dataStore.getBoundingBox().maxLongitudeE6);
 
-		ByteBuffer containerHeaderBuffer = ByteBuffer.allocate(HEADER_BUFFER_SIZE);
-
 		// write file header
-		// MAGIC BYTE
-		byte[] magicBytes = MAGIC_BYTE.getBytes();
-		containerHeaderBuffer.put(magicBytes);
-
-		// HEADER SIZE: Write dummy pattern as header size. It will be replaced
-		// later in time
-		int headerSizePosition = containerHeaderBuffer.position();
-		containerHeaderBuffer.putInt(DUMMY_INT);
 
 		// FILE VERSION
-		containerHeaderBuffer.putInt(version);
+		this.tilePersistenceManager.getMetaData().setFileVersion("" + version);
 
-		// FILE SIZE: Write dummy pattern as file size. It will be replaced
-		// later in time
-		containerHeaderBuffer.putLong(DUMMY_LONG);
 		// DATE OF CREATION
-		containerHeaderBuffer.putLong(date);
+		this.tilePersistenceManager.getMetaData().setDateOfCreation(date);
 
 		// BOUNDING BOX
-		containerHeaderBuffer.putInt(this.dataStore.getBoundingBox().minLatitudeE6);
-		containerHeaderBuffer.putInt(this.dataStore.getBoundingBox().minLongitudeE6);
-		containerHeaderBuffer.putInt(this.dataStore.getBoundingBox().maxLatitudeE6);
-		containerHeaderBuffer.putInt(this.dataStore.getBoundingBox().maxLongitudeE6);
+		this.tilePersistenceManager.getMetaData().setBoundingBox(this.dataStore.getBoundingBox().minLatitudeE6,
+				this.dataStore.getBoundingBox().minLongitudeE6, this.dataStore.getBoundingBox().maxLatitudeE6,
+				this.dataStore.getBoundingBox().minLongitudeE6);
 
 		// TILE SIZE
-		containerHeaderBuffer.putShort(tilePixel);
+		this.tilePersistenceManager.getMetaData().setTileSize(tilePixel);
 
 		// PROJECTION
-		writeUTF8(PROJECTION, containerHeaderBuffer);
+		this.tilePersistenceManager.getMetaData().setProjection(PROJECTION);
 
 		// PREFERRED LANGUAGE
-		// TODO leads to zero length string, but according to specification this
-		// is correct
 		if (preferredLanguage == null) {
-			writeUTF8("", containerHeaderBuffer);
+			this.tilePersistenceManager.getMetaData().setLanguagePreference("");
 		} else {
-			writeUTF8(preferredLanguage, containerHeaderBuffer);
+			this.tilePersistenceManager.getMetaData().setLanguagePreference(preferredLanguage);
 		}
 
 		// FLAGS
-		containerHeaderBuffer.put(infoByteOptmizationParams(debugStrings, mapStartPosition != null));
+		this.tilePersistenceManager.getMetaData().setFlags(
+				infoByteOptmizationParams(debugStrings, mapStartPosition != null));
 
 		// MAP START POSITION
 		if (mapStartPosition != null) {
-			containerHeaderBuffer.putInt(mapStartPosition.getLatitudeE6());
-			containerHeaderBuffer.putInt(mapStartPosition.getLongitudeE6());
+			this.tilePersistenceManager.getMetaData().setMapStartPosition(mapStartPosition.getLatitudeE6(),
+					mapStartPosition.getLongitudeE6());
 		}
 
 		// AMOUNT POI TAGS
-		containerHeaderBuffer.putShort((short) OSMTagMapping.getInstance().getOptimizedPoiIds().size());
+		this.tilePersistenceManager.getMetaData().setAmountOfPOIMappings(
+				(short) OSMTagMapping.getInstance().getOptimizedPoiIds().size());
+		this.tilePersistenceManager.getMetaData().preparePOIMappings();
+
 		// POI TAGS
 		// retrieves tag ids in order of frequency, most frequent come first
+		String[] poiTags = new String[(short) OSMTagMapping.getInstance().getOptimizedPoiIds().size()];
+		int poiID = 0;
 		for (short tagId : OSMTagMapping.getInstance().getOptimizedPoiIds().keySet()) {
 			OSMTag tag = OSMTagMapping.getInstance().getPoiTag(tagId);
-			writeUTF8(tag.tagKey(), containerHeaderBuffer);
+			poiTags[poiID] = tag.tagKey();
+			++poiID;
 		}
+		this.tilePersistenceManager.getMetaData().setPOIMappings(poiTags);
 
 		// AMOUNT OF WAY TAGS
-		containerHeaderBuffer.putShort((short) OSMTagMapping.getInstance().getOptimizedWayIds().size());
+		this.tilePersistenceManager.getMetaData().setAmountOfWayTagMappings(
+				(short) OSMTagMapping.getInstance().getOptimizedWayIds().size());
 
 		// WAY TAGS
+		String[] wayTags = new String[(short) OSMTagMapping.getInstance().getOptimizedWayIds().size()];
+		int wayID = 0;
 		for (short tagId : OSMTagMapping.getInstance().getOptimizedWayIds().keySet()) {
 			OSMTag tag = OSMTagMapping.getInstance().getWayTag(tagId);
-			writeUTF8(tag.tagKey(), containerHeaderBuffer);
+			wayTags[wayID] = tag.getKey();
+			++wayID;
 		}
+		this.tilePersistenceManager.getMetaData().setWayTagMappings(wayTags);
 
 		// AMOUNT OF ZOOM INTERVALS
-		containerHeaderBuffer.put((byte) numberOfZoomIntervals);
+		this.tilePersistenceManager.getMetaData().setAmountOfZoomIntervals((byte) numberOfZoomIntervals);
 
-		// ZOOM INTERVAL CONFIGURATION: SKIP COMPUTED AMOUNT OF BYTES
-		this.posZoomIntervalConfig = containerHeaderBuffer.position();
-		this.bufferZoomIntervalConfig = ByteBuffer.allocate(SIZE_ZOOMINTERVAL_CONFIGURATION * numberOfZoomIntervals);
-
-		containerHeaderBuffer.position(containerHeaderBuffer.position() + SIZE_ZOOMINTERVAL_CONFIGURATION
-				* numberOfZoomIntervals);
+		// ZOOM INTERVAL CONFIGURATION
+		for (int i = 0; i < numberOfZoomIntervals; i++) {
+			writeZoomIntervalConfiguration(i);
+		}
 
 		// COMMENT
 		if (comment != null && !comment.equals("")) {
-			writeUTF8(comment, containerHeaderBuffer);
+			this.tilePersistenceManager.getMetaData().setComment("");
 		} else {
-			writeUTF8("i <3 mapsforge", containerHeaderBuffer);
-		}
-
-		// now write header size
-		// -4 bytes of header size variable itself
-		int headerSize = containerHeaderBuffer.position() - headerSizePosition - BYTES_INT;
-		containerHeaderBuffer.putInt(headerSizePosition, headerSize);
-
-		if (!containerHeaderBuffer.hasArray()) {
-			throw new RuntimeException("unsupported operating system, byte buffer not backed by array"); // NOPMD
-																											// by
-																											// bross
-																											// on
-																											// 25.12.11
-																											// 14:06
+			this.tilePersistenceManager.getMetaData().setComment(comment);
 		}
 	}
 
-	// private void writeZoomIntervalConfiguration(int i) {
-	//
-	// // HEADER META DATA FOR SUB FILE
-	// // write zoom interval configuration to header
-	// byte minZoomCurrentInterval = this.dataStore.getZoomIntervalConfiguration().getMinZoom(i);
-	// byte maxZoomCurrentInterval = this.dataStore.getZoomIntervalConfiguration().getMaxZoom(i);
-	// byte baseZoomCurrentInterval = this.dataStore.getZoomIntervalConfiguration().getBaseZoom(i);
-	//
-	// this.bufferZoomIntervalConfig.put(baseZoomCurrentInterval);
-	// this.bufferZoomIntervalConfig.put(minZoomCurrentInterval);
-	// this.bufferZoomIntervalConfig.put(maxZoomCurrentInterval);
-	// }
+	private void writeZoomIntervalConfiguration(int i) {
+
+		// HEADER META DATA FOR SUB FILE
+		// write zoom interval configuration to header
+		byte minZoomCurrentInterval = this.dataStore.getZoomIntervalConfiguration().getMinZoom(i);
+		byte maxZoomCurrentInterval = this.dataStore.getZoomIntervalConfiguration().getMaxZoom(i);
+		byte baseZoomCurrentInterval = this.dataStore.getZoomIntervalConfiguration().getBaseZoom(i);
+
+		this.tilePersistenceManager.getMetaData().setZoomIntervalConfiguration(i, baseZoomCurrentInterval,
+				minZoomCurrentInterval, maxZoomCurrentInterval, TileDataContainer.TILE_TYPE_VECTOR);
+	}
 
 	private void writeSubfile(final int zoomIntervalIndex, final boolean debugStrings, // final
 																						// boolean
@@ -672,6 +650,7 @@ public class MapFileWriter {
 
 					// COMMIT BATCH
 					if (bytesAdded >= BATCH_SIZE) {
+						System.out.println("Committing batch");
 						this.tilePersistenceManager.insertOrUpdateTiles(tiles);
 						tiles.clear();
 						bytesAdded = 0;

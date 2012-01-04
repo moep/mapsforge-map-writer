@@ -49,32 +49,44 @@ public class PCTilePersistenceManager implements TilePersistenceManager {
 	private MapFileMetaData mapFileMetaData = null;
 
 	/**
-	 * Open the specified map database. If the database does not exist it will be created.
+	 * Open the specified map database. If the database does not exist it will be created. You have to call
+	 * {@link #init()} in order to perform operations on this database.
 	 * 
 	 * @param path
 	 *            Path to a map database file.
-	 */
-	public PCTilePersistenceManager(String path) {
-		// TODO Throw FileNotFoundException
-		this.path = path;
-	}
-
-	/**
-	 * Opens and creates the database and creates metadata tables.
-	 * 
 	 * @param mfm
 	 *            The map file's meta data. This will only be used when a new map file should be created. Otherwise the
 	 *            meta data will be parsed from the map file. If set to null, an empty meta data container will be used
 	 *            for creating the database.
 	 */
-	public void init(MapFileMetaData mfm) {
+	public PCTilePersistenceManager(String path, MapFileMetaData mfm) {
+		// TODO Throw FileNotFoundException
+		this.path = path;
 		if (mfm == null) {
 			// Create default metadata values
 			this.mapFileMetaData = MapFileMetaData.createInstanceWithDefaultValues();
 		} else {
 			this.mapFileMetaData = mfm;
 		}
+	}
 
+	/**
+	 * Open the specified map database. If the database does not exist it will be created. You have to call
+	 * {@link #init()} in order to perform operations on this database.
+	 * 
+	 * @param path
+	 *            Path to a map database file.
+	 */
+	public PCTilePersistenceManager(String path) {
+		this(path, null);
+	}
+
+	/**
+	 * Opens and creates the database and creates metadata tables.
+	 */
+	public void init() {
+		System.out.println("Database has been initialized");
+		// TODO Can this wrapper be merged with openOrCreateDB()?
 		try {
 			openOrCreateDB();
 		} catch (ClassNotFoundException e) {
@@ -188,7 +200,7 @@ public class PCTilePersistenceManager implements TilePersistenceManager {
 				this.insertOrUpdateTileByIDStmt.addBatch();
 			}
 
-			insertOrUpdateTileByIDStmt.executeBatch();
+			this.insertOrUpdateTileByIDStmt.executeBatch();
 			this.conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -246,7 +258,7 @@ public class PCTilePersistenceManager implements TilePersistenceManager {
 		try {
 			this.getTileByIDStmt.setString(1, "tiles_" + baseZoomInterval);
 			this.getTileByIDStmt.setInt(2, id);
-			this.resultSet = getTileByIDStmt.executeQuery();
+			this.resultSet = this.getTileByIDStmt.executeQuery();
 
 			if (this.resultSet.next()) {
 				result = this.resultSet.getBytes(1);
@@ -273,7 +285,7 @@ public class PCTilePersistenceManager implements TilePersistenceManager {
 
 			while (this.resultSet.next()) {
 				// TODO calculate values (create constructor with id?)
-				ret.add(new TileDataContainer(resultSet.getBytes(1), TileDataContainer.TILE_TYPE_VECTOR, -1, -1,
+				ret.add(new TileDataContainer(this.resultSet.getBytes(1), TileDataContainer.TILE_TYPE_VECTOR, -1, -1,
 						baseZoomInterval));
 			}
 		} catch (SQLException e) {
@@ -284,7 +296,7 @@ public class PCTilePersistenceManager implements TilePersistenceManager {
 
 	}
 
-	private String getIDListString(int ids[]) {
+	private static String getIDListString(int ids[]) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < ids.length; i++) {
 			sb.append(ids[i]);
@@ -588,6 +600,7 @@ public class PCTilePersistenceManager implements TilePersistenceManager {
 	 */
 	public static void main(String[] args) {
 		PCTilePersistenceManager tpm = new PCTilePersistenceManager("/home/moep/maps/mapsforge/test.map");
+		tpm.init();
 
 		Vector<TileDataContainer> tiles = new Vector<TileDataContainer>();
 		tiles.add(new TileDataContainer("moep".getBytes(), TileDataContainer.TILE_TYPE_VECTOR, 1, 0, (byte) 1));
