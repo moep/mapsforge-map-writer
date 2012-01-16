@@ -17,6 +17,7 @@ package org.mapsforge.map.writer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -257,7 +258,7 @@ public class MapFileWriter {
 		// BOUNDING BOX
 		this.tilePersistenceManager.getMetaData().setBoundingBox(this.dataStore.getBoundingBox().minLatitudeE6,
 				this.dataStore.getBoundingBox().minLongitudeE6, this.dataStore.getBoundingBox().maxLatitudeE6,
-				this.dataStore.getBoundingBox().minLongitudeE6);
+				this.dataStore.getBoundingBox().maxLongitudeE6);
 
 		// TILE SIZE
 		this.tilePersistenceManager.getMetaData().setTileSize(tilePixel);
@@ -345,6 +346,8 @@ public class MapFileWriter {
 																						// waynodeCompression,
 			final boolean polygonClipping, final boolean wayClipping, final boolean pixelCompression)
 			throws IOException {
+
+		HashMap<Long, Integer> idCounts = new HashMap<Long, Integer>();
 
 		LOGGER.fine("writing data for zoom interval " + zoomIntervalIndex + ", number of tiles: "
 				+ this.dataStore.getTileGridLayout(zoomIntervalIndex).getAmountTilesHorizontal()
@@ -521,6 +524,7 @@ public class MapFileWriter {
 								continue;
 							}
 
+							// Way Signature
 							if (debugStrings) {
 								StringBuilder sb = new StringBuilder();
 								sb.append(DEBUG_STRING_WAY_HEAD).append(way.getId()).append(DEBUG_STRING_WAY_TAIL);
@@ -528,6 +532,14 @@ public class MapFileWriter {
 								// append withespaces so that block has 32 bytes
 								appendWhitespace(DEBUG_BLOCK_SIZE - sb.toString().getBytes().length, tileBuffer);
 							}
+
+							// DEBUG: Write OSM Way ID
+							wayBuffer.putLong(way.getId());
+							// Integer id = idCounts.get(new Long(way.getId()));
+							// if (id == null) {
+							// id = new Integer(0);
+							// }
+							// idCounts.put(new Long(way.getId()), new Integer(id.intValue() + 1));
 
 							// write subtile bitmask of way
 							wayBuffer.putShort(wpr.getSubtileMask());
@@ -568,6 +580,9 @@ public class MapFileWriter {
 
 							// write the amount of way data blocks
 							wayBuffer.put((byte) wpr.getWayDataBlocks().size());
+							if (tileX == 8802 && tileY == 5373) {
+								System.out.println("#Way data blocks: " + wpr.getWayDataBlocks().size());
+							}
 
 							// write the way data blocks
 
@@ -672,6 +687,11 @@ public class MapFileWriter {
 		// COMMIT (remaining tiles)
 		this.tilePersistenceManager.insertOrUpdateTiles(tiles);
 		tiles.clear();
+
+		// for (Long id : idCounts.keySet()) {
+		// System.out.println(id + ": " + idCounts.get(id));
+		// }
+		System.out.println("Zoom: " + zoomIntervalIndex);
 	}// end writeSubfile()
 
 	private static byte[] getArrayFromTileBuffer(ByteBuffer tileBuffer, int tileSize) {

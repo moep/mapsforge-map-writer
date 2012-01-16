@@ -589,7 +589,7 @@ public class PCTilePersistenceManager implements TilePersistenceManager {
 	}
 
 	private int coordinatesToID(int xPos, int yPos, int baseZoomInterval) {
-		return (int) (yPos * Math.pow(this.mapFileMetaData.getBaseZoomLevel()[baseZoomInterval], 2) + xPos);
+		return (int) (yPos * Math.pow(2, this.mapFileMetaData.getBaseZoomLevel()[baseZoomInterval]) + xPos);
 	}
 
 	/**
