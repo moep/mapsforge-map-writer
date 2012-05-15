@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -23,7 +23,7 @@ import java.util.Map;
 public abstract class TileData {
 
 	/**
-	 * Add a POI to the tile
+	 * Add a POI to the tile.
 	 * 
 	 * @param poi
 	 *            the POI
@@ -31,7 +31,7 @@ public abstract class TileData {
 	public abstract void addPOI(TDNode poi);
 
 	/**
-	 * Add a way to the tile
+	 * Add a way to the tile.
 	 * 
 	 * @param way
 	 *            the way
@@ -39,7 +39,7 @@ public abstract class TileData {
 	public abstract void addWay(TDWay way);
 
 	/**
-	 * Gets all POIs of this tile that are seen in the given zoom interval
+	 * Gets all POIs of this tile that are seen in the given zoom interval.
 	 * 
 	 * @param minValidZoomlevel
 	 *            the minimum zoom level (inclusive)
@@ -50,7 +50,7 @@ public abstract class TileData {
 	public abstract Map<Byte, List<TDNode>> poisByZoomlevel(byte minValidZoomlevel, byte maxValidZoomlevel);
 
 	/**
-	 * Gets all ways of this tile that are seen in the given zoom interval
+	 * Gets all ways of this tile that are seen in the given zoom interval.
 	 * 
 	 * @param minValidZoomlevel
 	 *            the minimum zoom level (inclusive)

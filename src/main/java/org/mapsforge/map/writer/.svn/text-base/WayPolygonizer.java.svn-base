@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -48,8 +48,7 @@ class WayPolygonizer {
 	 * Tries to merge ways to closed polygons. The ordering of waynodes is preserved during the merge process.
 	 * 
 	 * @param ways
-	 *            An array of ways that should be merged. Ways may be given in any order and may already be
-	 *            closed.
+	 *            An array of ways that should be merged. Ways may be given in any order and may already be closed.
 	 */
 	void mergePolygons(TDWay[] ways) {
 		this.polygons = new ArrayList<Deque<TDWay>>();
@@ -116,8 +115,8 @@ class WayPolygonizer {
 				long startFirst = c1Start.isReversedInRelation() ? c1Start.getWayNodes()[c1Start.getWayNodes().length - 1]
 						.getId() : c1Start.getWayNodes()[0].getId();
 
-				long endLast = c1End.isReversedInRelation() ? c1End.getWayNodes()[0].getId() : c1End
-						.getWayNodes()[c1End.getWayNodes().length - 1].getId();
+				long endLast = c1End.isReversedInRelation() ? c1End.getWayNodes()[0].getId()
+						: c1End.getWayNodes()[c1End.getWayNodes().length - 1].getId();
 
 				long currentFirst = current.getWayNodes()[0].getId();
 				long currentLast = current.getWayNodes()[current.getWayNodes().length - 1].getId();
@@ -262,8 +261,8 @@ class WayPolygonizer {
 		long startFirst = c1Start.isReversedInRelation() ? c1Start.getWayNodes()[c1Start.getWayNodes().length - 1]
 				.getId() : c1Start.getWayNodes()[0].getId();
 
-		long endLast = c1End.isReversedInRelation() ? c1End.getWayNodes()[0].getId()
-				: c1End.getWayNodes()[c1End.getWayNodes().length - 1].getId();
+		long endLast = c1End.isReversedInRelation() ? c1End.getWayNodes()[0].getId() : c1End.getWayNodes()[c1End
+				.getWayNodes().length - 1].getId();
 
 		return startFirst == endLast;
 	}

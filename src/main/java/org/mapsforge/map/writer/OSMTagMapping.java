@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -49,8 +49,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * Reorders and maps tag ids according to their frequency in the input data. Ids are remapped so that the most
- * frequent entities receive the lowest ids.
+ * Reorders and maps tag ids according to their frequency in the input data. Ids are remapped so that the most frequent
+ * entities receive the lowest ids.
  * 
  * @author bross
  */
@@ -149,8 +149,8 @@ public final class OSMTagMapping {
 				boolean renderable = attributes.getNamedItem("renderable") == null ? true : Boolean
 						.parseBoolean(attributes.getNamedItem("renderable").getTextContent());
 
-				boolean forcePolygonLine = attributes.getNamedItem("force-polygon-line") == null ? false
-						: Boolean.parseBoolean(attributes.getNamedItem("force-polygon-line").getTextContent());
+				boolean forcePolygonLine = attributes.getNamedItem("force-polygon-line") == null ? false : Boolean
+						.parseBoolean(attributes.getNamedItem("force-polygon-line").getTextContent());
 
 				OSMTag osmTag = new OSMTag(this.poiID, key, value, zoom, renderable, forcePolygonLine);
 				if (this.stringToPoiTag.containsKey(osmTag.tagKey())) {
@@ -174,10 +174,8 @@ public final class OSMTagMapping {
 				for (int j = 0; j < zoomOverrideNodes.getLength(); j++) {
 					Node overriddenNode = zoomOverrideNodes.item(j);
 					if (overriddenNode instanceof Element) {
-						String keyOverridden = overriddenNode.getAttributes().getNamedItem("key")
-								.getTextContent();
-						String valueOverridden = overriddenNode.getAttributes().getNamedItem("value")
-								.getTextContent();
+						String keyOverridden = overriddenNode.getAttributes().getNamedItem("key").getTextContent();
+						String valueOverridden = overriddenNode.getAttributes().getNamedItem("value").getTextContent();
 						Set<String> s = tmpPoiZoomOverrides.get(Short.valueOf(this.poiID));
 						if (s == null) {
 							s = new HashSet<String>();
@@ -210,8 +208,8 @@ public final class OSMTagMapping {
 				boolean renderable = attributes.getNamedItem("renderable") == null ? true : Boolean
 						.parseBoolean(attributes.getNamedItem("renderable").getTextContent());
 
-				boolean forcePolygonLine = attributes.getNamedItem("force-polygon-line") == null ? false
-						: Boolean.parseBoolean(attributes.getNamedItem("force-polygon-line").getTextContent());
+				boolean forcePolygonLine = attributes.getNamedItem("force-polygon-line") == null ? false : Boolean
+						.parseBoolean(attributes.getNamedItem("force-polygon-line").getTextContent());
 
 				OSMTag osmTag = new OSMTag(this.wayID, key, value, zoom, renderable, forcePolygonLine);
 				if (this.stringToWayTag.containsKey(osmTag.tagKey())) {
@@ -235,10 +233,8 @@ public final class OSMTagMapping {
 				for (int j = 0; j < zoomOverrideNodes.getLength(); j++) {
 					Node overriddenNode = zoomOverrideNodes.item(j);
 					if (overriddenNode instanceof Element) {
-						String keyOverridden = overriddenNode.getAttributes().getNamedItem("key")
-								.getTextContent();
-						String valueOverridden = overriddenNode.getAttributes().getNamedItem("value")
-								.getTextContent();
+						String keyOverridden = overriddenNode.getAttributes().getNamedItem("key").getTextContent();
+						String valueOverridden = overriddenNode.getAttributes().getNamedItem("value").getTextContent();
 						Set<String> s = tmpWayZoomOverrides.get(Short.valueOf(this.wayID));
 						if (s == null) {
 							s = new HashSet<String>();
@@ -514,7 +510,7 @@ public final class OSMTagMapping {
 		}
 
 		/**
-		 * First order: amount Second order: id (reversed order)
+		 * First order: amount Second order: id (reversed order).
 		 */
 		@Override
 		public int compareTo(HistogramEntry o) {

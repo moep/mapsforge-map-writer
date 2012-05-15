@@ -1,18 +1,18 @@
 10
 
 dir
-1682
+2015
 https://mapsforge.googlecode.com/svn/trunk/mapsforge-map-writer/src/main/java/org/mapsforge/map/writer/osmosis
 https://mapsforge.googlecode.com/svn
 
 
 
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
+2012-05-03T20:27:03.170373Z
+2014
+thilo.muehlberg@gmail.com
 
 
-
+svn:special svn:externals svn:needs-lock
 
 
 
@@ -26,50 +26,16 @@ jjbross
 
 a424f762-2dd8-11df-bfeb-7b4c664f286a
 
-MapFileWriterPluginLoader.java
-file
-
-
-
-
-2012-01-04T12:41:36.489798Z
-45f34aba4459de268e08c5bc8db97738
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1443
-
 MapFileWriterFactory.java
 file
 
 
 
 
-2012-01-04T12:41:36.489798Z
-175c515e028d1315e43d5c5bb452e333
-2011-12-23T13:29:14.762310Z
-1618
+2012-05-15T11:59:37.000000Z
+cb9f0ce90a30a075d4e962d0cbee6f64
+2012-03-28T19:43:51.789352Z
+1989
 jjbross
 
 
@@ -92,7 +58,41 @@ jjbross
 
 
 
-3891
+4757
+
+MapFileWriterPluginLoader.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+e6bc92b6290395b5cfbf9798c94f1666
+2012-02-12T17:21:30.355201Z
+1804
+jjbross
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1445
 
 MapFileWriterTask.java
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2012-01-04T12:41:36.489798Z
-fc8049f0f664d7114f7a0769d59ed17c
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
+2012-05-15T11:59:37.000000Z
+304d9d7d27466cdfa0e3051c4bdf47c1
+2012-05-03T20:27:03.170373Z
+2014
+thilo.muehlberg@gmail.com
 
 
 
@@ -126,5 +126,5 @@ jjbross
 
 
 
-10247
+7219
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,12 +15,12 @@
 package org.mapsforge.map.writer.model;
 
 /**
- * Represents the configuration of zoom intervals. A zoom interval is defined by a base zoom level, a minimum
- * zoom level and a maximum zoom level.
+ * Represents the configuration of zoom intervals. A zoom interval is defined by a base zoom level, a minimum zoom level
+ * and a maximum zoom level.
  * 
  * @author bross
  */
-final public class ZoomIntervalConfiguration {
+public final class ZoomIntervalConfiguration {
 
 	private final byte[] baseZoom;
 	private final byte[] minZoom;
@@ -38,17 +38,16 @@ final public class ZoomIntervalConfiguration {
 		for (byte[] interval : intervals) {
 			i++;
 			if (interval.length != 3) {
-				throw new IllegalArgumentException("invalid interval configuration, found only "
-						+ interval.length + "parameters for interval " + i);
+				throw new IllegalArgumentException("invalid interval configuration, found only " + interval.length
+						+ "parameters for interval " + i);
 			}
-			if (interval[0] <= interval[1] || interval[0] >= interval[2]) {
+			if (interval[0] < interval[1] || interval[0] > interval[2]) {
 				throw new IllegalArgumentException("invalid configuration for interval " + i
 						+ ", make sure that minZoom < baseZoom < maxZoom");
 			}
 			if (i > 1) {
 				if (interval[0] < this.baseZoom[i - 2]) {
-					throw new IllegalArgumentException(
-							"interval configurations must follow an increasing order");
+					throw new IllegalArgumentException("interval configurations must follow an increasing order");
 				}
 				if (interval[1] != ((this.maxZoom[i - 2]) + 1)) {
 					throw new IllegalArgumentException("minZoom of interval " + i
@@ -67,8 +66,8 @@ final public class ZoomIntervalConfiguration {
 	 * @return the standard configuration
 	 */
 	public static ZoomIntervalConfiguration getStandardConfiguration() {
-		return new ZoomIntervalConfiguration(
-				new byte[][] { new byte[] { 8, 0, 11 }, new byte[] { 14, 12, 21 } });
+		return new ZoomIntervalConfiguration(new byte[][] { new byte[] { 5, 0, 7 }, new byte[] { 10, 8, 11 },
+				new byte[] { 14, 12, 21 } });
 	}
 
 	/**

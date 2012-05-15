@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -14,7 +14,7 @@
  */
 package org.mapsforge.map.writer.util;
 
-import org.mapsforge.map.writer.model.GeoCoordinate;
+import org.mapsforge.core.model.CoordinatesUtil;
 import org.mapsforge.map.writer.model.TDNode;
 import org.mapsforge.map.writer.model.TDWay;
 
@@ -26,14 +26,15 @@ import com.vividsolutions.jts.geom.Coordinate;
 public final class JTSUtils {
 
 	private JTSUtils() {
+		throw new IllegalStateException();
 	}
 
 	private static Coordinate toCoordinate(int latitude, int longitude) {
-		return new Coordinate(GeoCoordinate.intToDouble(longitude), GeoCoordinate.intToDouble(latitude));
+		return new Coordinate(CoordinatesUtil.microdegreesToDegrees(longitude), CoordinatesUtil.microdegreesToDegrees(latitude));
 	}
 
 	/**
-	 * Translates a {@link TDNode} object to a JTS {@link Coordinate}
+	 * Translates a {@link TDNode} object to a JTS {@link Coordinate}.
 	 * 
 	 * @param node
 	 *            the node
@@ -44,7 +45,7 @@ public final class JTSUtils {
 	}
 
 	/**
-	 * Translates a {@link TDWay} object to an array of JTS {@link Coordinate}
+	 * Translates a {@link TDWay} object to an array of JTS {@link Coordinate}.
 	 * 
 	 * @param way
 	 *            the way

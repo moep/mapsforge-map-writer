@@ -1,18 +1,18 @@
 10
 
 dir
-1682
+2015
 https://mapsforge.googlecode.com/svn/trunk/mapsforge-map-writer/src/main/resources
 https://mapsforge.googlecode.com/svn
 
 
 
-2011-12-23T13:29:14.762310Z
-1618
+2012-03-09T21:25:13.277731Z
+1892
 jjbross
 
 
-
+svn:special svn:externals svn:needs-lock
 
 
 
@@ -26,17 +26,17 @@ jjbross
 
 a424f762-2dd8-11df-bfeb-7b4c664f286a
 
-default.properties
+COPYING
 file
 
 
 
 
-2012-01-04T12:41:37.641804Z
-f0b1b84e90afc4277ac170c14d0bae80
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
+2012-05-15T11:59:38.000000Z
+d32239bcb673463ab874e80d47fae504
+2012-01-14T17:06:24.508133Z
+1733
+thilo.muehlberg@gmail.com
 
 
 
@@ -58,7 +58,41 @@ jjbross
 
 
 
-111
+35147
+
+COPYING.LESSER
+file
+
+
+
+
+2012-05-15T11:59:38.000000Z
+e6a600fd5e1d9cbde2d983680233ad02
+2012-01-14T17:06:24.508133Z
+1733
+thilo.muehlberg@gmail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7651
 
 oceantiles_12.dat
 file
@@ -66,7 +100,7 @@ file
 
 
 
-2012-01-04T12:41:37.657804Z
+2012-05-15T11:59:38.000000Z
 227a8473ec9a0ac76b40958da7ce7104
 2011-12-23T13:29:14.762310Z
 1618
@@ -100,10 +134,10 @@ file
 
 
 
-2012-01-04T12:41:37.657804Z
-ff7ff9b6d6770f611d9c8c0a0604f8ae
-2011-12-23T13:29:14.762310Z
-1618
+2012-05-15T11:59:38.000000Z
+d4217cb4debd32ffb87d2008be0975b1
+2012-03-09T21:25:13.277731Z
+1892
 jjbross
 
 
@@ -126,175 +160,5 @@ jjbross
 
 
 
-7961
-
-tag-mapping.xml
-file
-
-
-
-
-2012-01-04T12:41:37.657804Z
-19b5081995e11ad3e65bfc8fc2f6cc5f
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-17481
-
-COPYING.LESSER
-file
-
-
-
-
-2012-01-04T12:41:37.657804Z
-e6a600fd5e1d9cbde2d983680233ad02
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7651
-
-COPYING
-file
-
-
-
-
-2012-01-04T12:41:37.657804Z
-d32239bcb673463ab874e80d47fae504
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-35147
-
-NEWS
-file
-
-
-
-
-2012-01-04T12:41:37.657804Z
-a8e08b06e4438ee69b9b7fe19639a2cf
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2495
-
-plugin.xml
-file
-
-
-
-
-2012-01-04T12:41:37.661804Z
-ebc5975e4422e12a0a8063ecbb0c6f8a
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1088
+7963
 

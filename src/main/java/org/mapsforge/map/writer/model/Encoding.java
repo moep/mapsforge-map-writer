@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -22,15 +22,15 @@ package org.mapsforge.map.writer.model;
 public enum Encoding {
 
 	/**
-	 * no encoding
+	 * No encoding.
 	 */
 	NONE,
 	/**
-	 * single delta encoding
+	 * Single delta encoding.
 	 */
 	DELTA,
 	/**
-	 * double delta encoding
+	 * Double delta encoding.
 	 */
 	DOUBLE_DELTA
 }

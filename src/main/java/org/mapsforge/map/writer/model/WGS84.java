@@ -15,8 +15,8 @@
 package org.mapsforge.map.writer.model;
 
 /**
- * This class provides methods and constants for dealing with distances on earth using the World
- * Geodatic System 1984
+ * This class provides methods and constants for dealing with distances on earth
+ * using the World Geodatic System 1984
  * 
  * @author Eike
  */
@@ -32,7 +32,8 @@ public class WGS84 {
 	public static final double POLARRADIUS = 6356752.3142;
 
 	/**
-	 * The flattening factor of the earth's ellipsoid is required for distance computation.
+	 * The flattening factor of the earth's ellipsoid is required for distance
+	 * computation.
 	 */
 	public static final double INVERSEFLATTENING = 298.257223563;
 

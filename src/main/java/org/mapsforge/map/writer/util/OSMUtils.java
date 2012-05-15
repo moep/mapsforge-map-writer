@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,6 +16,7 @@ package org.mapsforge.map.writer.util;
 
 import gnu.trove.list.array.TShortArrayList;
 
+import java.util.Locale;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,8 +49,7 @@ public final class OSMUtils {
 	 *            the entity
 	 * @param preferredLanguage
 	 *            the preferred language
-	 * @return a string array, [0] = name, [1] = ref, [2} = housenumber, [3] layer, [4] elevation, [5]
-	 *         relationType
+	 * @return a string array, [0] = name, [1] = ref, [2} = housenumber, [3] layer, [4] elevation, [5] relationType
 	 */
 	public static SpecialTagExtractionResult extractSpecialFields(Entity entity, String preferredLanguage) {
 		boolean foundPreferredLanguageName = false;
@@ -62,8 +62,10 @@ public final class OSMUtils {
 
 		if (entity.getTags() != null) {
 			for (Tag tag : entity.getTags()) {
-				String key = tag.getKey().toLowerCase();
-				if (("name".equals(key) || "piste:name".equals(key)) && !foundPreferredLanguageName) {
+				String key = tag.getKey().toLowerCase(Locale.ENGLISH);
+				if ("name".equals(key) && !foundPreferredLanguageName) {
+					name = tag.getValue();
+				} else if ("piste:name".equals(key) && name == null) {
 					name = tag.getValue();
 				} else if ("addr:housenumber".equals(key)) {
 					housenumber = tag.getValue();
@@ -78,16 +80,21 @@ public final class OSMUtils {
 						}
 						layer = testLayer;
 					} catch (NumberFormatException e) {
-						LOGGER.finest("could not parse layer information to byte type: " + entity.getId());
+						LOGGER.finest("could not parse layer information to byte type: " + tag.getValue()
+								+ "\t entity-id: " + entity.getId() + "\tentity-type: " + entity.getType().name());
 					}
 				} else if ("ele".equals(key)) {
+					String strElevation = tag.getValue();
+					strElevation = strElevation.replaceAll("m", "");
+					strElevation = strElevation.replaceAll(",", ".");
 					try {
-						double testElevation = Double.parseDouble(tag.getValue());
+						double testElevation = Double.parseDouble(strElevation);
 						if (testElevation < MAX_ELEVATION) {
 							elevation = (short) testElevation; // NOPMD by bross on 25.12.11 13:27
 						}
 					} catch (NumberFormatException e) {
-						LOGGER.finest("could not parse elevation information to double type: " + entity.getId());
+						LOGGER.finest("could not parse elevation information to double type: " + tag.getValue()
+								+ "\t entity-id: " + entity.getId() + "\tentity-type: " + entity.getType().name());
 					}
 
 				} else if ("type".equals(key)) {

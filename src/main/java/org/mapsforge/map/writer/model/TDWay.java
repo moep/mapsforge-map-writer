@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -17,6 +17,7 @@ package org.mapsforge.map.writer.model;
 import gnu.trove.set.TShortSet;
 import gnu.trove.set.hash.TShortHashSet;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import org.mapsforge.map.writer.OSMTagMapping;
@@ -35,15 +36,15 @@ public class TDWay {
 
 	// TODO these constants are not necessary anymore
 	/**
-	 * represents a line
+	 * Represents a line.
 	 */
 	public static final byte LINE = 0x0;
 	/**
-	 * a simple closed polygon
+	 * A simple closed polygon.
 	 */
 	public static final byte SIMPLE_POLYGON = 0x1;
 	/**
-	 * a simple closed polygon with holes
+	 * A simple closed polygon with holes.
 	 */
 	public static final byte MULTI_POLYGON = 0x2;
 
@@ -51,10 +52,12 @@ public class TDWay {
 	private final byte layer;
 	private String name;
 	private String ref;
+	private final String houseNumber;
 	private short[] tags; // NOPMD by bross on 25.12.11 13:04
 	private byte shape;
 	private final TDNode[] wayNodes;
 	private boolean reversedInRelation;
+	private boolean invalid;
 
 	/**
 	 * Creates a new TDWay from an osmosis way entity using the given NodeResolver.
@@ -106,8 +109,8 @@ public class TDWay {
 					}
 				}
 
-				return new TDWay(way.getId(), ster.getLayer(), ster.getName(), ster.getRef(), knownWayTags,
-						shape, waynodes);
+				return new TDWay(way.getId(), ster.getLayer(), ster.getName(), ster.getHousenumber(), ster.getRef(),
+						knownWayTags, shape, waynodes);
 			}
 		}
 
@@ -115,7 +118,7 @@ public class TDWay {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param id
 	 *            the id
@@ -123,21 +126,24 @@ public class TDWay {
 	 *            the layer
 	 * @param name
 	 *            the name if existent
+	 * @param houseNumber
+	 *            the house number if existent
 	 * @param ref
 	 *            the ref if existent
 	 * @param wayNodes
 	 *            the way nodes
 	 */
-	public TDWay(long id, byte layer, String name, String ref, TDNode[] wayNodes) {
+	public TDWay(long id, byte layer, String name, String houseNumber, String ref, TDNode[] wayNodes) {
 		this.id = id;
 		this.layer = layer;
 		this.name = name;
+		this.houseNumber = houseNumber;
 		this.ref = ref;
 		this.wayNodes = wayNodes;
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param id
 	 *            the id
@@ -145,6 +151,8 @@ public class TDWay {
 	 *            the layer
 	 * @param name
 	 *            the name if existent
+	 * @param houseNumber
+	 *            the house number if existent
 	 * @param ref
 	 *            the ref if existent
 	 * @param tags
@@ -154,15 +162,12 @@ public class TDWay {
 	 * @param wayNodes
 	 *            the way nodes
 	 */
-	public TDWay(long id, byte layer, String name, String ref, short[] tags, byte shape, TDNode[] wayNodes) { // NOPMD
-																												// by
-																												// bross
-																												// on
-																												// 25.12.11
-																												// 13:04
+	public TDWay(long id, byte layer, String name, String houseNumber, String ref, short[] tags, byte shape,
+			TDNode[] wayNodes) {
 		this.id = id;
 		this.layer = layer;
 		this.name = name;
+		this.houseNumber = houseNumber;
 		this.ref = ref;
 		this.tags = tags;
 		this.shape = shape;
@@ -207,6 +212,13 @@ public class TDWay {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the house number
+	 */
+	public String getHouseNumber() {
+		return this.houseNumber;
 	}
 
 	/**
@@ -279,8 +291,7 @@ public class TDWay {
 	 * @return true, if the way is relevant for rendering
 	 */
 	public boolean isRenderRelevant() {
-		return hasTags() || getName() != null && !getName().isEmpty() || getRef() != null
-				&& !getRef().isEmpty();
+		return hasTags() || getName() != null && !getName().isEmpty() || getRef() != null && !getRef().isEmpty();
 	}
 
 	private void addTags(short[] addendum) { // NOPMD by bross on 25.12.11 13:04
@@ -337,8 +348,7 @@ public class TDWay {
 
 	/**
 	 * @param reversedInRelation
-	 *            set the flag that indicates whether the order of the way nodes are reversed by a particular
-	 *            relation
+	 *            set the flag that indicates whether the order of the way nodes are reversed by a particular relation
 	 */
 	public void setReversedInRelation(boolean reversedInRelation) {
 		this.reversedInRelation = reversedInRelation;
@@ -358,6 +368,21 @@ public class TDWay {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @return the invalid
+	 */
+	public boolean isInvalid() {
+		return this.invalid;
+	}
+
+	/**
+	 * @param invalid
+	 *            the invalid to set
+	 */
+	public void setInvalid(boolean invalid) {
+		this.invalid = invalid;
 	}
 
 	@Override
@@ -388,8 +413,7 @@ public class TDWay {
 
 	@Override
 	public String toString() {
-		return "TDWay [id=" + this.id + ", name=" + this.name + ", tags=" + this.tags + ", polygon="
+		return "TDWay [id=" + this.id + ", name=" + this.name + ", tags=" + Arrays.toString(this.tags) + ", polygon="
 				+ this.shape + "]";
 	}
-
 }

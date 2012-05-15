@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -25,11 +25,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.mapsforge.map.writer.model.Rect;
+import org.mapsforge.core.model.BoundingBox;
+import org.mapsforge.map.writer.model.MapWriterConfiguration;
 import org.mapsforge.map.writer.model.TDNode;
 import org.mapsforge.map.writer.model.TDRelation;
 import org.mapsforge.map.writer.model.TDWay;
-import org.mapsforge.map.writer.model.TileBasedDataProcessor;
 import org.mapsforge.map.writer.model.TileCoordinate;
 import org.mapsforge.map.writer.model.TileData;
 import org.mapsforge.map.writer.model.TileInfo;
@@ -51,21 +51,14 @@ public final class RAMTileBasedDataProcessor extends BaseTileBasedDataProcessor 
 
 	private final RAMTileData[][][] tileData;
 
-	private RAMTileBasedDataProcessor(double minLat, double maxLat, double minLon, double maxLon,
-			ZoomIntervalConfiguration zoomIntervalConfiguration, int bboxEnlargement, String preferredLanguage) {
-		this(new Rect(minLon, maxLon, minLat, maxLat), zoomIntervalConfiguration, bboxEnlargement,
-				preferredLanguage);
-	}
-
-	private RAMTileBasedDataProcessor(Rect bbox, ZoomIntervalConfiguration zoomIntervalConfiguration,
-			int bboxEnlargement, String preferredLanguage) {
-		super(bbox, zoomIntervalConfiguration, bboxEnlargement, preferredLanguage);
+	private RAMTileBasedDataProcessor(MapWriterConfiguration configuration) {
+		super(configuration);
 		this.nodes = new TLongObjectHashMap<TDNode>();
 		this.ways = new TLongObjectHashMap<TDWay>();
 		this.multipolygons = new TLongObjectHashMap<TDRelation>();
-		this.tileData = new RAMTileData[zoomIntervalConfiguration.getNumberOfZoomIntervals()][][];
+		this.tileData = new RAMTileData[this.zoomIntervalConfiguration.getNumberOfZoomIntervals()][][];
 		// compute number of tiles needed on each base zoom level
-		for (int i = 0; i < zoomIntervalConfiguration.getNumberOfZoomIntervals(); i++) {
+		for (int i = 0; i < this.zoomIntervalConfiguration.getNumberOfZoomIntervals(); i++) {
 			this.tileData[i] = new RAMTileData[this.tileGridLayouts[i].getAmountTilesHorizontal()][this.tileGridLayouts[i]
 					.getAmountTilesVertical()];
 		}
@@ -74,44 +67,12 @@ public final class RAMTileBasedDataProcessor extends BaseTileBasedDataProcessor 
 	/**
 	 * Creates a new instance of a {@link RAMTileBasedDataProcessor}.
 	 * 
-	 * @param bbox
-	 *            the bounding box
-	 * @param zoomIntervalConfiguration
-	 *            the zoom interval configuration
-	 * @param bboxEnlargement
-	 *            the enlargement for bounding box
-	 * @param preferredLanguage
-	 *            the preferred language
+	 * @param configuration
+	 *            the configuration
 	 * @return a new instance of a {@link RAMTileBasedDataProcessor}
 	 */
-	public static RAMTileBasedDataProcessor newInstance(Rect bbox,
-			ZoomIntervalConfiguration zoomIntervalConfiguration, int bboxEnlargement, String preferredLanguage) {
-		return new RAMTileBasedDataProcessor(bbox, zoomIntervalConfiguration, bboxEnlargement,
-				preferredLanguage);
-	}
-
-	/**
-	 * @param bottom
-	 *            the min latitude
-	 * @param top
-	 *            the max latitude
-	 * @param left
-	 *            the min longitude
-	 * @param right
-	 *            the max longitude
-	 * @param zoomIntervalConfiguration
-	 *            the {@link ZoomIntervalConfiguration}
-	 * @param bboxEnlargement
-	 *            the bounding box enlargement
-	 * @param preferredLanguage
-	 *            the preferred language
-	 * @return a new instance of a {@link RAMTileBasedDataProcessor}
-	 */
-	public static TileBasedDataProcessor newInstance(double bottom, double top, double left, double right,
-			ZoomIntervalConfiguration zoomIntervalConfiguration, int bboxEnlargement, String preferredLanguage) {
-		Rect bbox = new Rect(left, right, bottom, top);
-		return new RAMTileBasedDataProcessor(bbox, zoomIntervalConfiguration, bboxEnlargement,
-				preferredLanguage);
+	public static RAMTileBasedDataProcessor newInstance(MapWriterConfiguration configuration) {
+		return new RAMTileBasedDataProcessor(configuration);
 	}
 
 	@Override
@@ -125,7 +86,7 @@ public final class RAMTileBasedDataProcessor extends BaseTileBasedDataProcessor 
 	}
 
 	@Override
-	public Rect getBoundingBox() {
+	public BoundingBox getBoundingBox() {
 		return this.boundingbox;
 	}
 
@@ -195,8 +156,7 @@ public final class RAMTileBasedDataProcessor extends BaseTileBasedDataProcessor 
 		int tileCoordinateXIndex = tileX - this.tileGridLayouts[zoom].getUpperLeft().getX();
 		int tileCoordinateYIndex = tileY - this.tileGridLayouts[zoom].getUpperLeft().getY();
 		// check for valid range
-		if (tileCoordinateXIndex < 0 || tileCoordinateYIndex < 0
-				|| this.tileData[zoom].length <= tileCoordinateXIndex
+		if (tileCoordinateXIndex < 0 || tileCoordinateYIndex < 0 || this.tileData[zoom].length <= tileCoordinateXIndex
 				|| this.tileData[zoom][tileCoordinateXIndex].length <= tileCoordinateYIndex) {
 			return null;
 		}

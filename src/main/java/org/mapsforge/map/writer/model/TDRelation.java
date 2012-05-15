@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -37,6 +37,7 @@ public class TDRelation {
 	private final long id;
 	private final byte layer;
 	private final String name;
+	private final String houseNumber;
 	private final String ref;
 	private final short[] tags; // NOPMD by bross on 25.12.11 13:13
 	private final TDWay[] memberWays;
@@ -93,12 +94,12 @@ public class TDRelation {
 			return null;
 		}
 
-		return new TDRelation(relation.getId(), ster.getLayer(), ster.getName(), ster.getRef(), knownWayTags,
-				wayMembers.toArray(new TDWay[wayMembers.size()]));
+		return new TDRelation(relation.getId(), ster.getLayer(), ster.getName(), ster.getHousenumber(), ster.getRef(),
+				knownWayTags, wayMembers.toArray(new TDWay[wayMembers.size()]));
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param id
 	 *            the id
@@ -106,6 +107,8 @@ public class TDRelation {
 	 *            the layer
 	 * @param name
 	 *            the name
+	 * @param houseNumber
+	 *            the house number if existent
 	 * @param ref
 	 *            the ref attribute
 	 * @param tags
@@ -113,13 +116,11 @@ public class TDRelation {
 	 * @param memberWays
 	 *            the member ways
 	 */
-	TDRelation(long id, byte layer, String name, String ref, short[] tags, TDWay[] memberWays) { // NOPMD by
-																									// bross on
-																									// 25.12.11
-																									// 13:13
+	TDRelation(long id, byte layer, String name, String houseNumber, String ref, short[] tags, TDWay[] memberWays) {
 		this.id = id;
 		this.layer = layer;
 		this.name = name;
+		this.houseNumber = houseNumber;
 		this.ref = ref;
 		this.tags = tags;
 		this.memberWays = memberWays;
@@ -147,6 +148,13 @@ public class TDRelation {
 	}
 
 	/**
+	 * @return the houseNumber
+	 */
+	public String getHouseNumber() {
+		return this.houseNumber;
+	}
+
+	/**
 	 * @return the ref
 	 */
 	public String getRef() {
@@ -171,8 +179,7 @@ public class TDRelation {
 	 * @return true if the relation is relevant for rendering
 	 */
 	public boolean isRenderRelevant() {
-		return hasTags() || getName() != null && !getName().isEmpty() || getRef() != null
-				&& !getRef().isEmpty();
+		return hasTags() || getName() != null && !getName().isEmpty() || getRef() != null && !getRef().isEmpty();
 	}
 
 	/**
@@ -207,7 +214,7 @@ public class TDRelation {
 	 */
 	// TODO adjust if more relations should be supported
 	public static boolean knownRelationType(String type) {
-		return type != null && type.equals("multipolygon");
+		return type != null && "multipolygon".equals(type);
 	}
 
 	@Override
@@ -238,8 +245,8 @@ public class TDRelation {
 
 	@Override
 	public String toString() {
-		return "TDRelation [id=" + this.id + ", layer=" + this.layer + ", name=" + this.name + ", ref="
-				+ this.ref + ", tags=" + Arrays.toString(this.tags) + "]";
+		return "TDRelation [id=" + this.id + ", layer=" + this.layer + ", name=" + this.name + ", ref=" + this.ref
+				+ ", tags=" + Arrays.toString(this.tags) + "]";
 	}
 
 }

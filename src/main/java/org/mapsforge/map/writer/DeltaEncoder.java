@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -26,7 +26,7 @@ import org.mapsforge.map.writer.model.WayDataBlock;
  * 
  * @author bross
  */
-public class DeltaEncoder {
+public final class DeltaEncoder {
 
 	private DeltaEncoder() {
 	}
@@ -38,8 +38,8 @@ public class DeltaEncoder {
 	 *            List of WayDataBlock objects to be encoded.
 	 * @param encoding
 	 *            The Encoding which is used.
-	 * @return A new list of new WayDataBlock objects encoded with the given encoding. The original list is
-	 *         returned in case the encoding equals NONE.
+	 * @return A new list of new WayDataBlock objects encoded with the given encoding. The original list is returned in
+	 *         case the encoding equals NONE.
 	 */
 	public static List<WayDataBlock> encode(List<WayDataBlock> blocks, Encoding encoding) {
 		if (blocks == null) {
@@ -95,9 +95,9 @@ public class DeltaEncoder {
 				return doubleDeltaEncode(list);
 			case NONE:
 				return list;
-			default:
-				return list;
 		}
+
+		throw new IllegalArgumentException("unknown encoding value: " + encoding);
 	}
 
 	private static int mSimulateSerialization(List<Integer> list) {

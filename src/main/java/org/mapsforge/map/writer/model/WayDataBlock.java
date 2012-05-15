@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -17,8 +17,8 @@ package org.mapsforge.map.writer.model;
 import java.util.List;
 
 /**
- * Class to store a WayDataBlock. Each WayDataBlock can store one way and a list of corresponding inner ways.
- * Simple ways and simple polygons have zero inner ways while multi polygons have one or more inner ways.
+ * Class to store a WayDataBlock. Each WayDataBlock can store one way and a list of corresponding inner ways. Simple
+ * ways and simple polygons have zero inner ways while multi polygons have one or more inner ways.
  * 
  * @author sahin
  */
@@ -76,5 +76,4 @@ public class WayDataBlock {
 	public Encoding getEncoding() {
 		return this.encoding;
 	}
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -29,7 +29,7 @@ public class TileCoordinate {
 	private final byte zoomlevel;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param x
 	 *            the x value of the tile on the given zoom level
@@ -67,8 +67,8 @@ public class TileCoordinate {
 	}
 
 	/**
-	 * Computes which tile on a lower zoom level covers this given tile or which tiles on a higher zoom level
-	 * together cover this tile.
+	 * Computes which tile on a lower zoom level covers this given tile or which tiles on a higher zoom level together
+	 * cover this tile.
 	 * 
 	 * @param zoomlevelNew
 	 *            the zoom level

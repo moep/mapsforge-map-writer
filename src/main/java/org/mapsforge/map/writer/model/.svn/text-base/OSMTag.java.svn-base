@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,8 +15,8 @@
 package org.mapsforge.map.writer.model;
 
 /**
- * Represents an OSM entity which is defined by a tag/value pair. Each OSM entity is attributed with the zoom
- * level on which it should appear first.
+ * Represents an OSM entity which is defined by a tag/value pair. Each OSM entity is attributed with the zoom level on
+ * which it should appear first.
  * 
  * @author bross
  */
@@ -46,8 +46,7 @@ public class OSMTag {
 	 * @param forcePolygonLine
 	 *            flag if polygon line instead of area is forced with closed polygons
 	 */
-	public OSMTag(short id, String key, String value, byte zoomAppear, boolean renderable,
-			boolean forcePolygonLine) {
+	public OSMTag(short id, String key, String value, byte zoomAppear, boolean renderable, boolean forcePolygonLine) {
 		super();
 		this.id = id;
 		this.key = key;

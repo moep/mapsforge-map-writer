@@ -1,17 +1,17 @@
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/1681/trunk/mapsforge-map-writer
+/svn/!svn/ver/2014/trunk/mapsforge-map-writer
 END
 .gitignore
 K 25
 svn:wc:ra_dav:version-url
 V 56
-/svn/!svn/ver/1655/trunk/mapsforge-map-writer/.gitignore
+/svn/!svn/ver/1692/trunk/mapsforge-map-writer/.gitignore
 END
 pom.xml
 K 25
 svn:wc:ra_dav:version-url
 V 53
-/svn/!svn/ver/1681/trunk/mapsforge-map-writer/pom.xml
+/svn/!svn/ver/2011/trunk/mapsforge-map-writer/pom.xml
 END

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -26,14 +26,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.mapsforge.map.writer.model.Rect;
+import org.mapsforge.map.writer.model.MapWriterConfiguration;
 import org.mapsforge.map.writer.model.TDNode;
 import org.mapsforge.map.writer.model.TDRelation;
 import org.mapsforge.map.writer.model.TDWay;
 import org.mapsforge.map.writer.model.TileCoordinate;
 import org.mapsforge.map.writer.model.TileData;
 import org.mapsforge.map.writer.model.TileInfo;
-import org.mapsforge.map.writer.model.ZoomIntervalConfiguration;
 import org.openstreetmap.osmosis.core.domain.v0_6.Node;
 import org.openstreetmap.osmosis.core.domain.v0_6.Relation;
 import org.openstreetmap.osmosis.core.domain.v0_6.Way;
@@ -63,29 +62,22 @@ public final class HDTileBasedDataProcessor extends BaseTileBasedDataProcessor {
 	private IndexedObjectStoreReader<Node> nodeIndexReader;
 	private IndexedObjectStoreReader<Way> wayIndexReader;
 
-	private HDTileBasedDataProcessor(double minLat, double maxLat, double minLon, double maxLon,
-			ZoomIntervalConfiguration zoomIntervalConfiguration, int bboxEnlargement, String preferredLanguage) {
-		this(new Rect(minLon, maxLon, minLat, maxLat), zoomIntervalConfiguration, bboxEnlargement,
-				preferredLanguage);
-	}
-
-	private HDTileBasedDataProcessor(Rect bbox, ZoomIntervalConfiguration zoomIntervalConfiguration,
-			int bboxEnlargement, String preferredLanguage) {
-		super(bbox, zoomIntervalConfiguration, bboxEnlargement, preferredLanguage);
-		this.indexedNodeStore = new IndexedObjectStore<Node>(new SingleClassObjectSerializationFactory(
-				Node.class), "idxNodes");
-		this.indexedWayStore = new IndexedObjectStore<Way>(
-				new SingleClassObjectSerializationFactory(Way.class), "idxWays");
+	private HDTileBasedDataProcessor(MapWriterConfiguration configuration) {
+		super(configuration);
+		this.indexedNodeStore = new IndexedObjectStore<Node>(new SingleClassObjectSerializationFactory(Node.class),
+				"idxNodes");
+		this.indexedWayStore = new IndexedObjectStore<Way>(new SingleClassObjectSerializationFactory(Way.class),
+				"idxWays");
 		// indexedRelationStore = new IndexedObjectStore<Relation>(
 		// new SingleClassObjectSerializationFactory(
 		// Relation.class), "idxWays");
-		this.wayStore = new SimpleObjectStore<Way>(new SingleClassObjectSerializationFactory(Way.class),
-				"heapWays", true);
-		this.relationStore = new SimpleObjectStore<Relation>(new SingleClassObjectSerializationFactory(
-				Relation.class), "heapRelations", true);
+		this.wayStore = new SimpleObjectStore<Way>(new SingleClassObjectSerializationFactory(Way.class), "heapWays",
+				true);
+		this.relationStore = new SimpleObjectStore<Relation>(new SingleClassObjectSerializationFactory(Relation.class),
+				"heapRelations", true);
 
-		this.tileData = new HDTileData[zoomIntervalConfiguration.getNumberOfZoomIntervals()][][];
-		for (int i = 0; i < zoomIntervalConfiguration.getNumberOfZoomIntervals(); i++) {
+		this.tileData = new HDTileData[this.zoomIntervalConfiguration.getNumberOfZoomIntervals()][][];
+		for (int i = 0; i < this.zoomIntervalConfiguration.getNumberOfZoomIntervals(); i++) {
 			this.tileData[i] = new HDTileData[this.tileGridLayouts[i].getAmountTilesHorizontal()][this.tileGridLayouts[i]
 					.getAmountTilesVertical()];
 		}
@@ -96,45 +88,12 @@ public final class HDTileBasedDataProcessor extends BaseTileBasedDataProcessor {
 	/**
 	 * Creates a new {@link HDTileBasedDataProcessor}.
 	 * 
-	 * @param minLat
-	 *            the min latitude
-	 * @param maxLat
-	 *            the maximum latitude
-	 * @param minLon
-	 *            the minimum longitude
-	 * @param maxLon
-	 *            the maximum longitude
-	 * @param zoomIntervalConfiguration
-	 *            the zoom level configuration
-	 * @param bboxEnlargement
-	 *            the bounding box enlargement
-	 * @param preferredLanguage
-	 *            the preferred language
+	 * @param configuration
+	 *            the configuration
 	 * @return a new instance of a {@link HDTileBasedDataProcessor}
 	 */
-	public static HDTileBasedDataProcessor newInstance(double minLat, double maxLat, double minLon,
-			double maxLon, ZoomIntervalConfiguration zoomIntervalConfiguration, int bboxEnlargement,
-			String preferredLanguage) {
-		return new HDTileBasedDataProcessor(minLat, maxLat, minLon, maxLon, zoomIntervalConfiguration,
-				bboxEnlargement, preferredLanguage);
-	}
-
-	/**
-	 * Creates a new {@link HDTileBasedDataProcessor}.
-	 * 
-	 * @param bbox
-	 *            the bounding box
-	 * @param zoomIntervalConfiguration
-	 *            the zoom interval configuration
-	 * @param bboxEnlargement
-	 *            the bounding box enlargement
-	 * @param preferredLanguage
-	 *            the preferred language
-	 * @return a new instance of a {@link HDTileBasedDataProcessor}
-	 */
-	public static HDTileBasedDataProcessor newInstance(Rect bbox,
-			ZoomIntervalConfiguration zoomIntervalConfiguration, int bboxEnlargement, String preferredLanguage) {
-		return new HDTileBasedDataProcessor(bbox, zoomIntervalConfiguration, bboxEnlargement, preferredLanguage);
+	public static HDTileBasedDataProcessor newInstance(MapWriterConfiguration configuration) {
+		return new HDTileBasedDataProcessor(configuration);
 	}
 
 	@Override
@@ -157,7 +116,7 @@ public final class HDTileBasedDataProcessor extends BaseTileBasedDataProcessor {
 	}
 
 	@Override
-	public List<TDWay> getInnerWaysOfMultipolygon(long outerWayID) {
+	public synchronized List<TDWay> getInnerWaysOfMultipolygon(long outerWayID) {
 		TLongArrayList innerwayIDs = this.outerToInnerMapping.get(outerWayID);
 		if (innerwayIDs == null) {
 			return null;
@@ -177,8 +136,7 @@ public final class HDTileBasedDataProcessor extends BaseTileBasedDataProcessor {
 			} catch (NoSuchIndexElementException e) {
 				current = this.virtualWays.get(id);
 				if (current == null) {
-					LOGGER.fine("multipolygon with outer way id " + id + " references non-existing inner way "
-							+ id);
+					LOGGER.fine("multipolygon with outer way id " + id + " references non-existing inner way " + id);
 					continue;
 				}
 			}
@@ -335,8 +293,7 @@ public final class HDTileBasedDataProcessor extends BaseTileBasedDataProcessor {
 		int tileCoordinateXIndex = tileX - this.tileGridLayouts[zoom].getUpperLeft().getX();
 		int tileCoordinateYIndex = tileY - this.tileGridLayouts[zoom].getUpperLeft().getY();
 		// check for valid range
-		if (tileCoordinateXIndex < 0 || tileCoordinateYIndex < 0
-				|| this.tileData[zoom].length <= tileCoordinateXIndex
+		if (tileCoordinateXIndex < 0 || tileCoordinateYIndex < 0 || this.tileData[zoom].length <= tileCoordinateXIndex
 				|| this.tileData[zoom][tileCoordinateXIndex].length <= tileCoordinateYIndex) {
 			return null;
 		}

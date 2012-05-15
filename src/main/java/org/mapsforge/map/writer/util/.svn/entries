@@ -1,18 +1,18 @@
 10
 
 dir
-1682
+2015
 https://mapsforge.googlecode.com/svn/trunk/mapsforge-map-writer/src/main/java/org/mapsforge/map/writer/util
 https://mapsforge.googlecode.com/svn
 
 
 
-2011-12-28T21:57:43.042218Z
-1656
-jjbross
+2012-05-03T20:27:03.170373Z
+2014
+thilo.muehlberg@gmail.com
 
 
-
+svn:special svn:externals svn:needs-lock
 
 
 
@@ -26,17 +26,17 @@ jjbross
 
 a424f762-2dd8-11df-bfeb-7b4c664f286a
 
-OSMUtils.java
+Constants.java
 file
 
 
 
 
-2012-01-04T12:41:36.541799Z
-b8757cd70078a45c844f21bbb15a6665
-2011-12-28T21:57:43.042218Z
-1656
-jjbross
+2012-05-15T11:59:37.000000Z
+796a4f548c08c1981d20b052eec9ff83
+2012-04-06T13:27:38.722474Z
+2006
+thilo.muehlberg@gmail.com
 
 
 
@@ -58,41 +58,7 @@ jjbross
 
 
 
-5078
-
-JTSUtils.java
-file
-
-
-
-
-2012-01-04T12:41:36.541799Z
-23f6a8fc7fb190a7979fc75ae8e9da98
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2088
+2197
 
 GeoUtils.java
 file
@@ -100,11 +66,11 @@ file
 
 
 
-2012-01-04T12:41:36.541799Z
-c0000122bef002dc8b06960a56f5f0a1
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
+2012-05-15T11:59:37.000000Z
+2a0c94bc763dff142fb8dd65034bb44b
+2012-05-03T20:27:03.170373Z
+2014
+thilo.muehlberg@gmail.com
 
 
 
@@ -126,19 +92,19 @@ jjbross
 
 
 
-19988
+19415
 
-Constants.java
+JTSUtils.java
 file
 
 
 
 
-2012-01-04T12:41:36.541799Z
-3b67c244e5500ff5f7abbe26af4ad244
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
+2012-05-15T11:59:37.000000Z
+ad396c1de784dccba40d3fd9c2497ca5
+2012-05-03T20:27:03.170373Z
+2014
+thilo.muehlberg@gmail.com
 
 
 
@@ -160,5 +126,39 @@ jjbross
 
 
 
-1240
+2153
+
+OSMUtils.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+dc5369703cc7493d998a40e97662ac10
+2012-04-06T13:27:38.722474Z
+2006
+thilo.muehlberg@gmail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5498
 

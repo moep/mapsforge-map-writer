@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -17,6 +17,7 @@ package org.mapsforge.map.writer.model;
 import java.util.List;
 import java.util.Set;
 
+import org.mapsforge.core.model.BoundingBox;
 import org.openstreetmap.osmosis.core.domain.v0_6.Node;
 import org.openstreetmap.osmosis.core.domain.v0_6.Relation;
 import org.openstreetmap.osmosis.core.domain.v0_6.Way;
@@ -34,23 +35,23 @@ public interface TileBasedDataProcessor {
 	 * 
 	 * @return The bounding box that defines the area that is covered by the data store.
 	 */
-	public Rect getBoundingBox();
+	BoundingBox getBoundingBox();
 
 	/**
-	 * Get the layout of a grid on the given zoom interval specification
+	 * Get the layout of a grid on the given zoom interval specification.
 	 * 
 	 * @param zoomIntervalIndex
 	 *            the index of the zoom interval
 	 * @return the layout of the grid for the given zoom interval
 	 */
-	public TileGridLayout getTileGridLayout(int zoomIntervalIndex);
+	TileGridLayout getTileGridLayout(int zoomIntervalIndex);
 
 	/**
 	 * Get the zoom interval configuration of the data store.
 	 * 
 	 * @return the underlying zoom interval configuration
 	 */
-	public ZoomIntervalConfiguration getZoomIntervalConfiguration();
+	ZoomIntervalConfiguration getZoomIntervalConfiguration();
 
 	/**
 	 * Add a node to the data store. No association with a tile is performed.
@@ -58,7 +59,7 @@ public interface TileBasedDataProcessor {
 	 * @param node
 	 *            the node
 	 */
-	public void addNode(Node node);
+	void addNode(Node node);
 
 	/**
 	 * Add a way to the data store.
@@ -66,7 +67,7 @@ public interface TileBasedDataProcessor {
 	 * @param way
 	 *            the way
 	 */
-	public void addWay(Way way);
+	void addWay(Way way);
 
 	/**
 	 * Add a relation to the data store.
@@ -74,7 +75,7 @@ public interface TileBasedDataProcessor {
 	 * @param relation
 	 *            the relation
 	 */
-	public void addRelation(Relation relation);
+	void addRelation(Relation relation);
 
 	/**
 	 * Retrieve the all the inner ways that are associated with an outer way that represents a multipolygon.
@@ -83,7 +84,7 @@ public interface TileBasedDataProcessor {
 	 *            id of the outer way
 	 * @return all associated inner ways
 	 */
-	public List<TDWay> getInnerWaysOfMultipolygon(long outerWayID);
+	List<TDWay> getInnerWaysOfMultipolygon(long outerWayID);
 
 	/**
 	 * Retrieves all the data that is associated with a tile.
@@ -96,15 +97,15 @@ public interface TileBasedDataProcessor {
 	 *            y coordinate of the tile
 	 * @return tile, or null if the tile is outside the bounding box of this tile data store
 	 */
-	public TileData getTile(int baseZoomIndex, int tileCoordinateX, int tileCoordinateY);
+	TileData getTile(int baseZoomIndex, int tileCoordinateX, int tileCoordinateY);
 
 	/**
-	 * Retrieve the total amount of tiles cumulated over all base zoom levels that is needed to represent the
-	 * underlying bounding box of this tile data store.
+	 * Retrieve the total amount of tiles cumulated over all base zoom levels that is needed to represent the underlying
+	 * bounding box of this tile data store.
 	 * 
 	 * @return total amount of tiles
 	 */
-	public long cumulatedNumberOfTiles();
+	long cumulatedNumberOfTiles();
 
 	/**
 	 * Retrieve all coastlines that cross the given tile.
@@ -113,16 +114,16 @@ public interface TileBasedDataProcessor {
 	 *            the coordinate of the tile
 	 * @return all coastlines that cross the tile, an empty set if no coastlines cross
 	 */
-	public Set<TDWay> getCoastLines(TileCoordinate tc);
+	Set<TDWay> getCoastLines(TileCoordinate tc);
 
 	/**
 	 * Complete the data store, e.g. build indexes or similar.
 	 */
-	public void complete();
+	void complete();
 
 	/**
 	 * Release all acquired resources, e.g. delete any temporary files.
 	 */
-	public void release();
+	void release();
 
 }

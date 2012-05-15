@@ -1,18 +1,18 @@
 10
 
 dir
-1682
+2015
 https://mapsforge.googlecode.com/svn/trunk/mapsforge-map-writer/src/main/java/org/mapsforge/map/writer/model
 https://mapsforge.googlecode.com/svn
 
 
 
-2011-12-25T14:40:23.018544Z
-1648
-jjbross
+2012-05-03T20:27:03.170373Z
+2014
+thilo.muehlberg@gmail.com
 
 
-
+svn:special svn:externals svn:needs-lock
 
 
 
@@ -26,16 +26,16 @@ jjbross
 
 a424f762-2dd8-11df-bfeb-7b4c664f286a
 
-TileGridLayout.java
+Encoding.java
 file
 
 
 
 
-2012-01-04T12:41:36.393798Z
-9fcf7961ce409f95c5210a144bf7ac9c
-2011-12-23T13:29:14.762310Z
-1618
+2012-05-15T11:59:37.000000Z
+df4d9820b04be886877f9b45523a26cb
+2012-02-12T17:21:30.355201Z
+1804
 jjbross
 
 
@@ -58,18 +58,18 @@ jjbross
 
 
 
-1774
+1010
 
-WayDataBlock.java
+EncodingChoice.java
 file
 
 
 
 
-2012-01-04T12:41:36.397798Z
-5cee91873586c7e51bfe85a96d779813
-2011-12-23T13:29:14.762310Z
-1618
+2012-05-15T11:59:37.000000Z
+f54e3b76bf8c8a9f5aecbcc4b468e359
+2012-02-12T17:21:30.355201Z
+1804
 jjbross
 
 
@@ -92,19 +92,19 @@ jjbross
 
 
 
-2358
+1394
 
-TDRelation.java
+MapWriterConfiguration.java
 file
 
 
 
 
-2012-01-04T12:41:36.397798Z
-359a86e197ccf33385a4f2777f509e02
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
+2012-05-15T11:59:37.000000Z
+be82e88c9bee65c9f1ebeda1de7d2710
+2012-04-06T13:27:38.722474Z
+2006
+thilo.muehlberg@gmail.com
 
 
 
@@ -126,41 +126,7 @@ jjbross
 
 
 
-6245
-
-TileCoordinate.java
-file
-
-
-
-
-2012-01-04T12:41:36.393798Z
-ecba3c82a2770cbc9c23fe208ea7ed4a
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3416
+11751
 
 NodeResolver.java
 file
@@ -168,10 +134,10 @@ file
 
 
 
-2012-01-04T12:41:36.397798Z
-6a794f0a5d940fc95bac40df9d36b0a4
-2011-12-25T13:51:26.124588Z
-1647
+2012-05-15T11:59:37.000000Z
+8cf8d2b04381942f0784cf9b97ae2b1a
+2012-02-12T17:21:30.355201Z
+1804
 jjbross
 
 
@@ -194,7 +160,313 @@ jjbross
 
 
 
-1037
+1043
+
+OSMTag.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+f87002d3c1b881ff9fa534cd4ce51deb
+2012-02-12T17:21:30.355201Z
+1804
+jjbross
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4398
+
+SpecialTagExtractionResult.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+e3816b7cc9a2c390a25a803f5dc9533b
+2012-02-12T17:21:30.355201Z
+1804
+jjbross
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2386
+
+TDNode.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+c050566d01cd5c9387be7e67ed26825f
+2012-05-03T20:27:03.170373Z
+2014
+thilo.muehlberg@gmail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6344
+
+TDRelation.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+c2eceed6a7f8a1e4b30a601bcf266234
+2012-02-13T21:44:36.025281Z
+1810
+jjbross
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6410
+
+TDWay.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+f8039ed7075850407abb614ee953de5c
+2012-03-24T22:32:37.284370Z
+1977
+jjbross
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10111
+
+TileBasedDataProcessor.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+ddcddf533ca2a761e169e8f2db7aefc8
+2012-04-06T13:27:38.722474Z
+2006
+thilo.muehlberg@gmail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3758
+
+TileCoordinate.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+b9c98ef15d30ba3f0a1aa99119793a72
+2012-02-12T17:21:30.355201Z
+1804
+jjbross
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3423
+
+TileData.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+e0a46c1bd6474b80fd3b43e1d3cb78ad
+2012-02-12T17:21:30.355201Z
+1804
+jjbross
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1934
+
+TileGridLayout.java
+file
+
+
+
+
+2012-05-15T11:59:37.000000Z
+3103287082fc63ea4b8528d3e4085f19
+2012-02-12T17:21:30.355201Z
+1804
+jjbross
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1781
 
 TileInfo.java
 file
@@ -202,10 +474,10 @@ file
 
 
 
-2012-01-04T12:41:36.397798Z
-c86a60a24b2698fe114a051e08209dad
-2011-12-25T13:51:26.124588Z
-1647
+2012-05-15T11:59:37.000000Z
+d1b0c648fadb73bb39d0f52526d35fa7
+2012-02-12T17:21:30.355201Z
+1804
 jjbross
 
 
@@ -230,16 +502,16 @@ jjbross
 
 3490
 
-MercatorProjection.java
+WayDataBlock.java
 file
 
 
 
 
-2012-01-04T12:41:36.397798Z
-c53228ef125a348658ad3c8aae0eba40
-2011-12-23T13:29:14.762310Z
-1618
+2012-05-15T11:59:37.000000Z
+a0ff2531b2989825f5bff9b48311ef02
+2012-02-12T17:21:30.355201Z
+1804
 jjbross
 
 
@@ -262,177 +534,7 @@ jjbross
 
 
 
-8134
-
-WGS84.java
-file
-
-
-
-
-2012-01-04T12:41:36.397798Z
-e389870ab9cbf7803007bff3ed6d1b41
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1352
-
-SpecialTagExtractionResult.java
-file
-
-
-
-
-2012-01-04T12:41:36.397798Z
-2bcddd56b940c128bed150b2705367ae
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2380
-
-TDNode.java
-file
-
-
-
-
-2012-01-04T12:41:36.397798Z
-e6bab072693d91dab37c3dec3179f0fa
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-6222
-
-ZoomIntervalConfiguration.java
-file
-
-
-
-
-2012-01-04T12:41:36.397798Z
-7df740d0c01a2c830e5ce28e3913621f
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5041
-
-GeoCoordinate.java
-file
-
-
-
-
-2012-01-04T12:41:36.397798Z
-dcdf4cefdd9b7506899326ac53e85216
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-16140
+2364
 
 WayResolver.java
 file
@@ -440,10 +542,10 @@ file
 
 
 
-2012-01-04T12:41:36.397798Z
-88f98e73a0baeeb7a0954c5f1604c10d
-2011-12-23T13:29:14.762310Z
-1618
+2012-05-15T11:59:37.000000Z
+b52dfca274555ef1262d9443cb162f78
+2012-02-12T17:21:30.355201Z
+1804
 jjbross
 
 
@@ -466,18 +568,18 @@ jjbross
 
 
 
-987
+993
 
-Encoding.java
+ZoomIntervalConfiguration.java
 file
 
 
 
 
-2012-01-04T12:41:36.397798Z
-1c285ebea6fda6a8eeaffc68d234f7fc
-2011-12-23T13:29:14.762310Z
-1618
+2012-05-15T11:59:37.000000Z
+9bbd374a3f9d15140603f69b9afd3cf2
+2012-03-24T22:32:37.284370Z
+1977
 jjbross
 
 
@@ -500,209 +602,5 @@ jjbross
 
 
 
-1000
-
-TileBasedDataProcessor.java
-file
-
-
-
-
-2012-01-04T12:41:36.397798Z
-680777c4b3095b87893824df6c0a3a2d
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3783
-
-TileData.java
-file
-
-
-
-
-2012-01-04T12:41:36.397798Z
-e70ef60d81cbd8d9a9779017cf6fe1da
-2011-12-23T13:29:14.762310Z
-1618
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1924
-
-TDWay.java
-file
-
-
-
-
-2012-01-04T12:41:36.405798Z
-5ece547d70f103594c61c4ed5365d012
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-9609
-
-OSMTag.java
-file
-
-
-
-
-2012-01-04T12:41:36.405798Z
-ddb7bb8f0b32ed0c548db5dda2077254
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4395
-
-Tile.java
-file
-
-
-
-
-2012-01-04T12:41:36.405798Z
-a0e16a74326118181463f71a0277e075
-2011-12-25T13:51:26.124588Z
-1647
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2784
-
-Rect.java
-file
-
-
-
-
-2012-01-04T12:41:36.405798Z
-2f2cb29f422086dd3fe6d0647db4bb6b
-2011-12-25T14:40:23.018544Z
-1648
-jjbross
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-11275
+5061
 

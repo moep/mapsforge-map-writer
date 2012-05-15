@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2011 mapsforge.org
+ * Copyright 2010, 2011, 2012 mapsforge.org
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -30,8 +30,7 @@ public final class Serializer {
 	 * @return an array with four bytes.
 	 */
 	public static byte[] getBytes(int value) {
-		return new byte[] { (byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8),
-				(byte) value };
+		return new byte[] { (byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8), (byte) value };
 	}
 
 	/**
@@ -44,9 +43,8 @@ public final class Serializer {
 	 * @return an array with eight bytes.
 	 */
 	public static byte[] getBytes(long value) {
-		return new byte[] { (byte) (value >> 56), (byte) (value >> 48), (byte) (value >> 40),
-				(byte) (value >> 32), (byte) (value >> 24), (byte) (value >> 16),
-				(byte) (value >> 8), (byte) value };
+		return new byte[] { (byte) (value >> 56), (byte) (value >> 48), (byte) (value >> 40), (byte) (value >> 32),
+				(byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8), (byte) value };
 	}
 
 	/**
@@ -77,15 +75,15 @@ public final class Serializer {
 		} else if (value > 1099511627775L) {
 			throw new IllegalArgumentException("value out of range: " + value);
 		}
-		return new byte[] { (byte) (value >> 32), (byte) (value >> 24), (byte) (value >> 16),
-				(byte) (value >> 8), (byte) value };
+		return new byte[] { (byte) (value >> 32), (byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8),
+				(byte) value };
 	}
 
 	/**
 	 * Converts a signed int to a variable length byte array.
 	 * <p>
-	 * The first bit is for continuation info, the other six (last byte) or seven (all other
-	 * bytes) bits for data. The second bit in the last byte indicates the sign of the number.
+	 * The first bit is for continuation info, the other six (last byte) or seven (all other bytes) bits for data. The
+	 * second bit in the last byte indicates the sign of the number.
 	 * 
 	 * @param value
 	 *            the int value.
@@ -111,8 +109,7 @@ public final class Serializer {
 				return new byte[] { (byte) (absValue | 0x80), (byte) ((absValue >> 7) | 0x80),
 						(byte) ((absValue >> 14) | 0x40) };
 			}
-			return new byte[] { (byte) (absValue | 0x80), (byte) ((absValue >> 7) | 0x80),
-					(byte) (absValue >> 14) };
+			return new byte[] { (byte) (absValue | 0x80), (byte) ((absValue >> 7) | 0x80), (byte) (absValue >> 14) };
 		} else if (absValue < 134217728) { // 2^27
 			// encode the number in four bytes
 			if (value < 0) {
@@ -129,8 +126,7 @@ public final class Serializer {
 						(byte) ((absValue >> 28) | 0x40) };
 			}
 			return new byte[] { (byte) (absValue | 0x80), (byte) ((absValue >> 7) | 0x80),
-					(byte) ((absValue >> 14) | 0x80), (byte) ((absValue >> 21) | 0x80),
-					(byte) (absValue >> 28) };
+					(byte) ((absValue >> 14) | 0x80), (byte) ((absValue >> 21) | 0x80), (byte) (absValue >> 28) };
 		}
 	}
 
@@ -154,17 +150,15 @@ public final class Serializer {
 			return new byte[] { (byte) (value | 0x80), (byte) (value >> 7) };
 		} else if (value < 2097152) { // 2^21
 			// encode the number in three bytes
-			return new byte[] { (byte) (value | 0x80), (byte) ((value >> 7) | 0x80),
-					(byte) (value >> 14) };
+			return new byte[] { (byte) (value | 0x80), (byte) ((value >> 7) | 0x80), (byte) (value >> 14) };
 		} else if (value < 268435456) { // 2^28
 			// encode the number in four bytes
-			return new byte[] { (byte) (value | 0x80), (byte) ((value >> 7) | 0x80),
-					(byte) ((value >> 14) | 0x80), (byte) (value >> 21) };
+			return new byte[] { (byte) (value | 0x80), (byte) ((value >> 7) | 0x80), (byte) ((value >> 14) | 0x80),
+					(byte) (value >> 21) };
 		} else {
 			// encode the number in five bytes
-			return new byte[] { (byte) (value | 0x80), (byte) ((value >> 7) | 0x80),
-					(byte) ((value >> 14) | 0x80), (byte) ((value >> 21) | 0x80),
-					(byte) (value >> 28) };
+			return new byte[] { (byte) (value | 0x80), (byte) ((value >> 7) | 0x80), (byte) ((value >> 14) | 0x80),
+					(byte) ((value >> 21) | 0x80), (byte) (value >> 28) };
 		}
 	}
 
