@@ -10,10 +10,10 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>mapsforge-map-writer</artifactId>
+	<artifactId>mapsforge-map-writer-sqlite</artifactId>
 	<packaging>jar</packaging>
-	<name>mapsforge-map-writer</name>
-	<description>An osmosis plugin to create binary map files</description>
+	<name>mapsforge-map-writer-sqlite</name>
+	<description>An osmosis plugin to create binary map files backed by a SQLite database</description>
 
 	<build>
 		<resources>
