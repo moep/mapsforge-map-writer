@@ -164,7 +164,7 @@ public class PCTilePersistenceManager implements TilePersistenceManager {
 				.getAmountOfZoomIntervals()];
 		for (int i = 0; i < this.mapFileMetaData.getAmountOfZoomIntervals(); i++) {
 			try {
-				this.conn.prepareStatement("SELECT data FROM tiles_" + i
+				this.getTileByIDStmt[i] = this.conn.prepareStatement("SELECT data FROM tiles_" + i
 						+ " WHERE id == ?;");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
