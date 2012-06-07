@@ -27,6 +27,7 @@ import org.mapsforge.map.writer.RAMTileBasedDataProcessor;
 import org.mapsforge.map.writer.model.MapWriterConfiguration;
 import org.mapsforge.map.writer.model.TileBasedDataProcessor;
 import org.mapsforge.map.writer.util.Constants;
+import org.mapsforge.mapmaker.logging.ProgressManager;
 import org.openstreetmap.osmosis.core.container.v0_6.EntityContainer;
 import org.openstreetmap.osmosis.core.domain.v0_6.Bound;
 import org.openstreetmap.osmosis.core.domain.v0_6.Entity;
@@ -50,9 +51,11 @@ public class MapFileWriterTask implements Sink {
 
 	private final MapWriterConfiguration configuration;
 	private TileBasedDataProcessor tileBasedGeoObjectStore;
+	private final ProgressManager progressManager;
 
-	MapFileWriterTask(MapWriterConfiguration configuration) {
+	MapFileWriterTask(MapWriterConfiguration configuration, ProgressManager progressManager) {
 		this.configuration = configuration;
+		this.progressManager = progressManager;
 
 		Properties properties = new Properties();
 		try {
@@ -79,6 +82,8 @@ public class MapFileWriterTask implements Sink {
 			}
 		}
 
+		this.progressManager.initProgressBar(0, 0);
+		this.progressManager.sendMessage("Initializing map file writer plugin");
 	}
 
 	@Override
@@ -122,7 +127,7 @@ public class MapFileWriterTask implements Sink {
 
 	@Override
 	public final void process(EntityContainer entityContainer) {
-
+		this.progressManager.sendMessage("process(" + entityContainer + ")");
 		Entity entity = entityContainer.getEntity();
 
 		switch (entity.getType()) {

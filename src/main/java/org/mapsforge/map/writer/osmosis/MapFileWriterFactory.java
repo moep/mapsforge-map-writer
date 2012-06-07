@@ -14,8 +14,13 @@
  */
 package org.mapsforge.map.writer.osmosis;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.mapsforge.map.writer.model.MapWriterConfiguration;
 import org.mapsforge.map.writer.util.Constants;
+import org.mapsforge.mapmaker.logging.DummyProgressManager;
+import org.mapsforge.mapmaker.logging.ProgressManager;
 import org.openstreetmap.osmosis.core.pipeline.common.TaskConfiguration;
 import org.openstreetmap.osmosis.core.pipeline.common.TaskManager;
 import org.openstreetmap.osmosis.core.pipeline.common.TaskManagerFactory;
@@ -47,19 +52,19 @@ class MapFileWriterFactory extends TaskManagerFactory {
 	private static final String PARAM_ENCODING = "encoding";
 	private static final String PARAM_SKIP_INVALID_RELATIONS = "skip-invalid-relations";
 
+	private static final String GUI_PROGRESS_MANAGER_CLASS_NAME = "org.mapsforge.mapmaker.gui.ProgressGUI";
+
 	@Override
 	protected TaskManager createTaskManagerImpl(TaskConfiguration taskConfig) {
 
 		MapWriterConfiguration configuration = new MapWriterConfiguration();
-		configuration.addOutputFile(getStringArgument(taskConfig, PARAM_OUTFILE,
-				Constants.DEFAULT_PARAM_OUTFILE));
+		configuration.addOutputFile(getStringArgument(taskConfig, PARAM_OUTFILE, Constants.DEFAULT_PARAM_OUTFILE));
 		configuration.loadTagMappingFile(getStringArgument(taskConfig, PARAM_TAG_MAPPING_FILE, null));
 
 		configuration.addMapStartPosition(getStringArgument(taskConfig, PARAM_MAP_START_POSITION, null));
 		configuration.addMapStartZoom(getStringArgument(taskConfig, PARAM_MAP_START_ZOOM, null));
 		configuration.addBboxConfiguration(getStringArgument(taskConfig, PARAM_BBOX, null));
-		configuration.addZoomIntervalConfiguration(getStringArgument(taskConfig, PARAM_ZOOMINTERVAL_CONFIG,
-				null));
+		configuration.addZoomIntervalConfiguration(getStringArgument(taskConfig, PARAM_ZOOMINTERVAL_CONFIG, null));
 
 		configuration.setComment(getStringArgument(taskConfig, PARAM_COMMENT, null));
 		configuration.setDebugStrings(getBooleanArgument(taskConfig, PARAM_DEBUG_INFO, false));
@@ -70,21 +75,56 @@ class MapFileWriterFactory extends TaskManagerFactory {
 		// true);
 		configuration.setSimplification(getDoubleArgument(taskConfig, PARAM_SIMPLIFICATION_FACTOR,
 				Constants.DEFAULT_SIMPLIFICATION_FACTOR));
-		configuration.setSkipInvalidRelations(getBooleanArgument(taskConfig, PARAM_SKIP_INVALID_RELATIONS,
-				false));
+		configuration.setSkipInvalidRelations(getBooleanArgument(taskConfig, PARAM_SKIP_INVALID_RELATIONS, false));
 
-		configuration.setDataProcessorType(getStringArgument(taskConfig, PARAM_TYPE,
-				Constants.DEFAULT_PARAM_TYPE));
+		configuration.setDataProcessorType(getStringArgument(taskConfig, PARAM_TYPE, Constants.DEFAULT_PARAM_TYPE));
 		configuration.setBboxEnlargement(getIntegerArgument(taskConfig, PARAM_BBOX_ENLARGEMENT,
 				Constants.DEFAULT_PARAM_BBOX_ENLARGEMENT));
 
 		configuration.setPreferredLanguage(getStringArgument(taskConfig, PARAM_PREFERRED_LANGUAGE, null));
-		configuration.addEncodingChoice(getStringArgument(taskConfig, PARAM_ENCODING,
-				Constants.DEFAULT_PARAM_ENCODING));
+		configuration
+				.addEncodingChoice(getStringArgument(taskConfig, PARAM_ENCODING, Constants.DEFAULT_PARAM_ENCODING));
 
 		configuration.validate();
 
-		MapFileWriterTask task = new MapFileWriterTask(configuration);
+		// If set to true, progress messages will forwarded to a GUI message handler
+		boolean guiMode = getBooleanArgument(taskConfig, "gui-mode", false);
+
+		ProgressManager progressManager = new DummyProgressManager();
+
+		// Use graphical progress manager if plugin is called from map maker GUI
+		if (guiMode) {
+			try {
+				Class<?> clazz = Class.forName(GUI_PROGRESS_MANAGER_CLASS_NAME);
+				Method method = clazz.getMethod("getInstance", new Class[0]);
+				Object o = method.invoke(clazz, new Object[0]);
+
+				System.out.println("Progress manager (plugin): " + o);
+				progressManager = (ProgressManager) o;
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		progressManager.initProgressBar(5, 100);
+		progressManager.updateProgressBar(40);
+		progressManager.sendMessage("TEST");
+		MapFileWriterTask task = new MapFileWriterTask(configuration, progressManager);
 		return new SinkManager(taskConfig.getId(), task, taskConfig.getPipeArgs());
 	}
 
