@@ -27,6 +27,7 @@ import org.mapsforge.map.writer.RAMTileBasedDataProcessor;
 import org.mapsforge.map.writer.model.MapWriterConfiguration;
 import org.mapsforge.map.writer.model.TileBasedDataProcessor;
 import org.mapsforge.map.writer.util.Constants;
+import org.mapsforge.mapmaker.logging.LoggerWrapper;
 import org.mapsforge.mapmaker.logging.ProgressManager;
 import org.openstreetmap.osmosis.core.container.v0_6.EntityContainer;
 import org.openstreetmap.osmosis.core.domain.v0_6.Bound;
@@ -42,7 +43,8 @@ import org.openstreetmap.osmosis.core.task.v0_6.Sink;
  * @author bross
  */
 public class MapFileWriterTask implements Sink {
-	private static final Logger LOGGER = Logger.getLogger(MapFileWriterTask.class.getName());
+	private static final Logger LOGGER = LoggerWrapper.getLogger(MapFileWriterTask.class.getName());
+	private final ProgressManager progressManager;
 
 	// Accounting
 	private int amountOfNodesProcessed = 0;
@@ -51,9 +53,11 @@ public class MapFileWriterTask implements Sink {
 
 	private final MapWriterConfiguration configuration;
 	private TileBasedDataProcessor tileBasedGeoObjectStore;
-	private final ProgressManager progressManager;
 
 	MapFileWriterTask(MapWriterConfiguration configuration, ProgressManager progressManager) {
+		((LoggerWrapper) LOGGER).setProgressManager(progressManager);
+		LoggerWrapper.setDefaultProgressManager(progressManager);
+
 		this.configuration = configuration;
 		this.progressManager = progressManager;
 
@@ -127,7 +131,6 @@ public class MapFileWriterTask implements Sink {
 
 	@Override
 	public final void process(EntityContainer entityContainer) {
-		this.progressManager.sendMessage("process(" + entityContainer + ")");
 		Entity entity = entityContainer.getEntity();
 
 		switch (entity.getType()) {
