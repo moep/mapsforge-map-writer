@@ -1,5 +1,6 @@
 package org.mapsforge.mapmaker.logging;
 
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -72,6 +73,12 @@ public class LoggerWrapper extends Logger {
 		this.pm = pm;
 	}
 
+	/**
+	 * Sets the {@link ProgressManager} object that will be used for each <code>LoggerWrapper</code> instance.
+	 * 
+	 * @param pm
+	 *            The progress manager to be used whenever an instance of this class is created.
+	 */
 	public static void setDefaultProgressManager(ProgressManager pm) {
 		LoggerWrapper.defaultProgressManager = pm;
 	}
@@ -81,8 +88,8 @@ public class LoggerWrapper extends Logger {
 	}
 
 	@Override
-	public synchronized void info(String msg) {
-		super.info(msg);
-		pm.sendMessage(msg);
+	public void log(Level level, String msg) {
+		super.log(level, msg);
+		this.pm.appendLogMessage(msg, false);
 	}
 }

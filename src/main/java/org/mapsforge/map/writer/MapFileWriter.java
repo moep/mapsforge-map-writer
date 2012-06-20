@@ -47,7 +47,6 @@ import org.mapsforge.map.writer.model.ZoomIntervalConfiguration;
 import org.mapsforge.map.writer.util.Constants;
 import org.mapsforge.map.writer.util.GeoUtils;
 import org.mapsforge.mapmaker.logging.LoggerWrapper;
-import org.mapsforge.storage.tile.TilePersistenceManager;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -160,9 +159,6 @@ public final class MapFileWriter {
 	static final int WAY_DATA_BUFFER_SIZE = 0xA00000; // 10MB
 	static final int WAY_BUFFER_SIZE = 0x100000; // 10MB
 	static final int POI_DATA_BUFFER_SIZE = 0x100000; // 1MB
-
-	// SQLite file writer
-	private static TilePersistenceManager tpm;
 
 	/**
 	 * Writes the map file according to the given configuration using the given data processor.

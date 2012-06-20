@@ -1,7 +1,10 @@
 package org.mapsforge.mapmaker.logging;
 
 public interface ProgressManager {
-	public void sendMessage(String message);
+
+	public void setMessage(String message);
+	
+	public void appendLogMessage(String message, boolean isErrorMessage);
 
 	public void tick();
 

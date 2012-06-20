@@ -121,9 +121,6 @@ class MapFileWriterFactory extends TaskManagerFactory {
 			}
 		}
 
-		progressManager.initProgressBar(5, 100);
-		progressManager.updateProgressBar(40);
-		progressManager.sendMessage("TEST");
 		MapFileWriterTask task = new MapFileWriterTask(configuration, progressManager);
 		return new SinkManager(taskConfig.getId(), task, taskConfig.getPipeArgs());
 	}

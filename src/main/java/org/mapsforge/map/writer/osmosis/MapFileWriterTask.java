@@ -87,7 +87,7 @@ public class MapFileWriterTask implements Sink {
 		}
 
 		this.progressManager.initProgressBar(0, 0);
-		this.progressManager.sendMessage("Initializing map file writer plugin");
+		this.progressManager.setMessage("Initializing map file writer plugin");
 	}
 
 	@Override
